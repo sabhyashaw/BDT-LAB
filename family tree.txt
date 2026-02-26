@@ -1,0 +1,128 @@
+% -----------------------
+% Gender Facts
+% -----------------------
+
+male(harish).
+male(suresh).
+male(mahesh).
+male(deepak).
+male(rahul).
+male(arjun).
+male(kiran).
+male(vivaan).
+
+female(lata).
+female(kavita).
+female(anita).
+female(rekha).
+female(priya).
+female(sneha).
+female(ritu).
+female(kiran).
+female(meera).
+
+% -----------------------
+% Marriage Relations
+% -----------------------
+
+married(harish, lata).
+married(suresh, anita).
+married(mahesh, rekha).
+married(kavita, deepak).
+married(rahul, meera).
+married(kiran, vivaan).
+
+% Define husband and wife
+husband(X,Y) :- married(X,Y), male(X).
+husband(X,Y) :- married(Y,X), male(X).
+
+wife(X,Y) :- married(X,Y), female(Y).
+wife(X,Y) :- married(Y,X), female(X).
+
+% -----------------------
+% Parent Relations
+% -----------------------
+
+parent(harish, suresh).
+parent(lata, suresh).
+parent(harish, mahesh).
+parent(lata, mahesh).
+parent(harish, kavita).
+parent(lata, kavita).
+
+parent(suresh, rahul).
+parent(anita, rahul).
+parent(suresh, priya).
+parent(anita, priya).
+
+parent(mahesh, arjun).
+parent(rekha, arjun).
+parent(mahesh, sneha).
+parent(rekha, sneha).
+
+parent(deepak, kiran).
+parent(kavita, kiran).
+parent(deepak, ritu).
+parent(kavita, ritu).
+
+% -----------------------
+% Basic Relations
+% -----------------------
+
+father(X,Y) :- parent(X,Y), male(X).
+mother(X,Y) :- parent(X,Y), female(X).
+
+child(X,Y) :- parent(Y,X).
+
+% -----------------------
+% Grand Relations
+% -----------------------
+
+grandfather(X,Y) :-
+    parent(X,Z),
+    parent(Z,Y),
+    male(X).
+
+grandmother(X,Y) :-
+    parent(X,Z),
+    parent(Z,Y),
+    female(X).
+
+% -----------------------
+% Sibling Relations
+% -----------------------
+
+sibling(X,Y) :-
+    parent(Z,X),
+    parent(Z,Y),
+    X \= Y.
+
+brother(X,Y) :-
+    sibling(X,Y),
+    male(X).
+
+sister(X,Y) :-
+    sibling(X,Y),
+    female(X).
+
+% -----------------------
+% In-Law Relations
+% -----------------------
+
+father_in_law(X,Y) :-
+    married(Y,Z),
+    father(X,Z).
+
+mother_in_law(X,Y) :-
+    married(Y,Z),
+    mother(X,Z).
+
+sister_in_law(X,Y) :-
+    married(Y,Z),
+    sister(X,Z).
+
+brother_in_law(X,Y) :-
+    married(Y,Z),
+    brother(X,Z).
+
+
